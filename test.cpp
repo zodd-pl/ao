@@ -6,6 +6,7 @@
 #include <boost/coroutine2/all.hpp>
 
 #include "gtest/gtest.h"
+#include "gmock/gmock.h"
 
 typedef boost::coroutines2::coroutine<void>   coro_t;
 

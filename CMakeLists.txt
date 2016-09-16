@@ -21,6 +21,15 @@ enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
+set (GMOCK_INCLUDE_DIR "d:/programming/googletest-release-1.8.0/googlemock/include")
+set (GMOCK_LIBRARY "d:/programming/googletest-release-1.8.0/build/googlemock/Debug/gmock.lib")
+set (GMOCK_MAIN_LIBRARY "d:/programming/googletest-release-1.8.0/build/googlemock/Debug/gmock_main.lib")
+
+enable_testing()
+find_package(GMock REQUIRED)
+include_directories(${GMOCK_INCLUDE_DIRS})
+
+
 set(CMAKE_CXX_FLAGS_RELEASE "/MT")
 set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
 
@@ -30,6 +39,8 @@ set (CMAKE_EXE_LINKER_FLAGS "-SAFESEH:NO")
 
 target_link_libraries( ao ${Boost_LIBRARIES} )
 target_link_libraries( ao ${GTEST_LIBRARIES} )
+target_link_libraries( ao ${GMOCK_LIBRARIES} )
+
 target_link_libraries( ao GTest::GTest GTest::Main)
 
 
