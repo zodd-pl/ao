@@ -5,11 +5,13 @@
 
 #include <boost/coroutine2/all.hpp>
 
+#include "gtest/gtest.h"
+
 typedef boost::coroutines2::coroutine<void>   coro_t;
 
 using namespace std;
 
-int main()
+int main(int argc, char **argv)
 {
 	coro_t::push_type coro([](coro_t::pull_type& yield)
 	{
@@ -37,6 +39,12 @@ int main()
 	}
 
 	cout << "main: return " << endl;
-	return 0;
+
+
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+
+
+	//return 0;
 }
 
