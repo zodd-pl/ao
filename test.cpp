@@ -9,6 +9,8 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
+#include "ao/all.h"
+
 typedef boost::coroutines2::coroutine<void>   coro_t;
 
 using namespace std;
@@ -49,4 +51,23 @@ TEST(basic,coroutine_resumed_by_diffrent_threads)
 
 	ASSERT_EQ(i,resuming_threads.size());
 }
+
+
+TEST(action, basic)
+{
+	auto corotuine = [&](ao::coroutine & yield)
+	{
+		shared_ptr<void> x = yield.get();
+		cout << "coro: 0 " << "thread: " << this_thread::get_id() << endl;
+		cout << "use count: " << yield.get().use_count() << endl;
+		yield();
+		cout << "coro: 1 " << "thread: " << this_thread::get_id() << endl;
+		cout << "use count: " << yield.get().use_count() << endl;
+		yield();
+		cout << "coro: 2 " << "thread: " << this_thread::get_id() << endl;
+	};
+
+	ao::run(corotuine);	
+}
+
 
