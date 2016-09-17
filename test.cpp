@@ -2,6 +2,7 @@
 #include <iostream>
 #include <thread>
 #include <future>
+#include <set>
 
 #include <boost/coroutine2/all.hpp>
 
@@ -12,24 +13,29 @@ typedef boost::coroutines2::coroutine<void>   coro_t;
 
 using namespace std;
 
-int main(int argc, char **argv)
+
+
+TEST(basic,coroutine_resumed_by_diffrent_threads)
 {
-	coro_t::push_type coro([](coro_t::pull_type& yield)
+	set<thread::id> resuming_threads;
+
+	coro_t::push_type coro([&](coro_t::pull_type& yield)
 	{
+		cout << "coro: 0 " << "thread: " << this_thread::get_id() << endl;
+		resuming_threads.insert(this_thread::get_id());
+		yield();
 		cout << "coro: 1 " << "thread: " << this_thread::get_id() << endl;
+		resuming_threads.insert(this_thread::get_id());
 		yield();
 		cout << "coro: 2 " << "thread: " << this_thread::get_id() << endl;
+		resuming_threads.insert(this_thread::get_id());
 		yield();
 		cout << "coro: 3 " << "thread: " << this_thread::get_id() << endl;
-		yield();
-		cout << "coro: 4 " << "thread: " << this_thread::get_id() << endl;
-		yield();
+		resuming_threads.insert(this_thread::get_id());
 	});
 
-
-	
-
-	for (int i = 1; coro; i++)
+	int i;
+	for (i = 0; coro; i++)
 	{
 		cout << "main: " << i << endl;
 		//coro();
@@ -41,11 +47,6 @@ int main(int argc, char **argv)
 
 	cout << "main: return " << endl;
 
-
-	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
-
-
-	//return 0;
+	ASSERT_EQ(i,resuming_threads.size());
 }
 

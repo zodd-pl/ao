@@ -33,7 +33,7 @@ include_directories(${GMOCK_INCLUDE_DIRS})
 set(CMAKE_CXX_FLAGS_RELEASE "/MT")
 set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
 
-add_executable(ao test.cpp)
+add_executable(ao main.cpp test.cpp)
 
 set (CMAKE_EXE_LINKER_FLAGS "-SAFESEH:NO")
 
