@@ -3,13 +3,13 @@
 cmake_minimum_required (VERSION 3.6)
 project (ao)
 
-set (BOOST_INCLUDEDIR "C:/Boost/include/boost-1_61" )
-set (BOOST_LIBRARYDIR "C:/Boost/lib" )
-set (Boost_USE_STATIC_LIBS ON)
+set (BOOST_ROOT "C:/boost_1_64_0")
+set (Boost_USE_STATIC_RUNTIME OFF)
+set (Boost_USE_STATIC_LIBS OFF)
 set (Boost_USE_MULTITHREADED ON)
-set (Boost_USE_STATIC_RUNTIME ON)
+set (Boost_USE_DEBUG_RUNTIME ON)
 
-find_package(Boost 1.61 COMPONENTS coroutine REQUIRED)
+find_package(Boost 1.64.0 COMPONENTS context REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
@@ -29,15 +29,16 @@ enable_testing()
 find_package(GMock REQUIRED)
 include_directories(${GMOCK_INCLUDE_DIRS})
 
-
 set(CMAKE_CXX_FLAGS_RELEASE "/MT")
 set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+# set(CMAKE_CXX_FLAGS_RELEASE "/std:c++14")
+# set(CMAKE_CXX_FLAGS_DEBUG "/std:c++14")
 
 add_executable(ao main.cpp test.cpp ao/all.h)
 
 set (CMAKE_EXE_LINKER_FLAGS "-SAFESEH:NO")
 
-target_link_libraries( ao ${Boost_LIBRARIES} )
+target_link_libraries( ao ${Boost_LIBRARIES} Boost::disable_autolinking  Boost::diagnostic_definitions)
 target_link_libraries( ao ${GTEST_LIBRARIES} )
 target_link_libraries( ao ${GMOCK_LIBRARIES} )
 

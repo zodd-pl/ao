@@ -60,6 +60,7 @@ TEST(action, basic)
 		shared_ptr<void> x = yield.get();
 		cout << "coro: 0 " << "thread: " << this_thread::get_id() << endl;
 		cout << "use count: " << yield.get().use_count() << endl;
+		async([]() {cout << "async: 0 " << "thread: " << this_thread::get_id() << endl; });// .then(resume coro);
 		yield();
 		cout << "coro: 1 " << "thread: " << this_thread::get_id() << endl;
 		cout << "use count: " << yield.get().use_count() << endl;
