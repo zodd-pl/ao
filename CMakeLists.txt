@@ -9,7 +9,7 @@ set (Boost_USE_STATIC_LIBS OFF)
 set (Boost_USE_MULTITHREADED ON)
 set (Boost_USE_DEBUG_RUNTIME ON)
 
-find_package(Boost 1.64.0 COMPONENTS context REQUIRED)
+find_package(Boost 1.64.0 COMPONENTS context fiber REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
@@ -34,7 +34,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
 # set(CMAKE_CXX_FLAGS_RELEASE "/std:c++14")
 # set(CMAKE_CXX_FLAGS_DEBUG "/std:c++14")
 
-add_executable(ao main.cpp test.cpp ao/all.h)
+add_executable(ao main.cpp test.cpp fiber_test.cpp ao/all.h)
 
 set (CMAKE_EXE_LINKER_FLAGS "-SAFESEH:NO")
 
