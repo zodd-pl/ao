@@ -29,14 +29,18 @@ enable_testing()
 find_package(GMock REQUIRED)
 include_directories(${GMOCK_INCLUDE_DIRS})
 
-set(CMAKE_CXX_FLAGS_RELEASE "/MT")
-set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+set(CMAKE_CXX_FLAGS_RELEASE "/MT /Zi /Od")
+set(CMAKE_CXX_FLAGS_DEBUG "/MTd /Zi /Od")
+
+
+
 # set(CMAKE_CXX_FLAGS_RELEASE "/std:c++14")
 # set(CMAKE_CXX_FLAGS_DEBUG "/std:c++14")
 
-add_executable(ao main.cpp test.cpp fiber_test.cpp ao/all.h)
+add_executable(ao main.cpp fiber_test.cpp)
 
-set (CMAKE_EXE_LINKER_FLAGS "-SAFESEH:NO")
+
+#set (CMAKE_EXE_LINKER_FLAGS "-SAFESEH:NO")
 
 target_link_libraries( ao ${Boost_LIBRARIES} Boost::disable_autolinking  Boost::diagnostic_definitions)
 target_link_libraries( ao ${GTEST_LIBRARIES} )
